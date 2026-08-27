@@ -14,7 +14,10 @@ jobs:
 
   cart:
 
-    runs-on: self-hosted
+    runs-on: 
+      - self-hosted
+      - Linux
+      - x64
 
     defaults:
       run:
