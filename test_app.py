@@ -1,8 +1,5 @@
-const test = require("node:test");
-const assert = require("node:assert");
+from app import hello
 
-test("Hello World test", () => {
-    const message = "Hello World";
 
-    assert.strictEqual(message, "Hello World");
-});
+def test_hello():
+    assert hello() == "Hello, World!"
