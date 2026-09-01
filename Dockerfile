@@ -1,11 +1,7 @@
-FROM node:20-alpine
+FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY app.py .
 
-COPY app.js .
-
-EXPOSE 3000
-
-CMD ["node", "app.js"]
+CMD ["python", "app.py"]
