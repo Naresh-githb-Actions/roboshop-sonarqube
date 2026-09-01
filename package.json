@@ -1,5 +1,14 @@
 {
   "name": "hello-world",
   "version": "1.0.0",
-  "main": "app.js"
+  "description": "Simple Hello World DevSecOps project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "lint": "eslint .",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  }
 }
