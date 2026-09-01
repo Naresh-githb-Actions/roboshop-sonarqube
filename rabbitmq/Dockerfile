@@ -1,8 +1,0 @@
-FROM rabbitmq:3
-
-ENV RABBITMQ_DEFAULT_USER=roboshop
-ENV RABBITMQ_DEFAULT_PASS=roboshop123
-
-EXPOSE 5672 15672
-
-CMD ["rabbitmq-server"]
