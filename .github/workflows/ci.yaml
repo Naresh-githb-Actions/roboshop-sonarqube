@@ -17,14 +17,32 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+    
+        # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
 
+      # 3. Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Lint
+      - name: Lint
+        run: npm run lint
+
+      # 5. Unit Test
+      - name: Unit Test
+        run: npm test
+  # 6. SonarQube
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          
-      # Stage 2 - Docker Build
+         # 7. Docker Build   
+      
       - name: Build Docker Image
         run: |
           docker build -t hello-world:latest .
