@@ -15,7 +15,7 @@ WORKDIR /opt/server
 COPY package.json .
 COPY package-lock.json .
 COPY *.js .
-RUN npm install
+RUN npm ci
 
 FROM node:20-alpine3.21
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
