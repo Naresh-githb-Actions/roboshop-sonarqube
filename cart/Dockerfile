@@ -13,6 +13,7 @@
 FROM node:20-alpine3.21 AS builder
 WORKDIR /opt/server
 COPY package.json .
+COPY package-lock.json .
 COPY *.js .
 RUN npm install
 
