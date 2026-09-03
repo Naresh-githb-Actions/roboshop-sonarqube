@@ -1,38 +1,104 @@
-name: CI
+name: Python CI
 
 on:
   push:
     branches:
       - main
+
   pull_request:
 
 jobs:
-  build:
-    runs-on: self-hosted
+  ci:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+
+      # 1. Code Checkout
+      - name: Code Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      # 2. Setup Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
+      # 3. Install Dependencies
+      - name: Install Dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Run tests
+      # 4. Lint
+      - name: Lint
+        run: |
+          flake8 app tests
+
+      # 5. Unit Tests
+      - name: Unit Tests
         run: |
           PYTHONPATH=. pytest
 
+      # 6. Build
+      - name: Build
+        run: |
+          python -m compileall app
+
+      # 7. SonarQube
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-      - name: Build Docker image
+      # 8. Docker Image Build
+      - name: Docker Image Build
         run: |
           docker build -t hello-world-python:${{ github.sha }} .
+
+      # 9. Success
+      - name: SUCCESS
+        run: |
+          echo "CI Pipeline completed successfully!"
+
+#name: CI
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#  pull_request:
+#
+#jobs:
+#  build:
+#    runs-on: self-hosted
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Set up Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: "3.12"
+#
+#      - name: Install dependencies
+#        run: |
+#          pip install -r requirements.txt
+#          
+#      - name: Lint
+#        run: |
+#          flake8 app tests
+#
+#      - name: Run tests
+#        run: |
+#          PYTHONPATH=. pytest
+#
+#      - name: SonarQube Scan
+#        uses: SonarSource/sonarqube-scan-action@v6
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#
+#      - name: Build Docker image
+#        run: |
+#          docker build -t hello-world-python:${{ github.sha }} .
